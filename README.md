@@ -1,5 +1,6 @@
-<h1 style="text-align: center; font-size: 3em;">SportsGen</h1>
+![image](figs/SportsGenLogo.png)
 
+---
 Dataset and scripts for sports analyzing tasks proposed in research: \
 **When Reasoning Meets Information Aggregation: A Case Study with Sports Narratives**  \
 [Yebowen Hu](https://scholar.google.com/citations?user=AHHMtKAAAAAJ&hl=en), Kaiqiang Song, Sangwoo Cho, Xiaoyang Wang, Wenlin Yao, Hassan Foroosh, Dong Yu, Fei Liu  \
@@ -18,8 +19,8 @@ We introduce a novel method that synthesizes sports narratives by modeling game 
 </div>
 
 
-## hands-on Sports Analytical Tasks
-Tasks published on paper are prepared in folder "benchmarks/."
+## Hands-on Sports Analytical Tasks
+Tasks published on paper are prepared in the folder "benchmarks/."
 
 Data format
 ```json
@@ -32,11 +33,11 @@ Data format
 ```
 
 ## Generate your own dataset
-SportsGen requires small amount of LLM calling tokens. Prepare your API key in "config/openai_key.yaml" before you start data syntheize. 
+SportsGen requires a small amount of LLM calling tokens. Prepare your API key in "config/openai_key.yaml" before you start data synthesis. 
 
 ### Step 1: Synthesizing New Games
 ```bash
-# simply run bash for toy example
+# Simply run bash for a toy example
 bash generate_new_game.sh
 
 # or customize through command
@@ -48,9 +49,9 @@ python simulation.py \
         -ratio "1:5" \
         -anonymous False
     
- # @bench_size: int, number of instance you want in your testset
- # @strong_team_strength: int, the lowest player score in strong team 
- # @weak_team_strength: int, the highest player score in weak team
+ # @bench_size: int, number of instances you want in your test set
+ # @strong_team_strength: int, the lowest player score in a winner team 
+ # @weak_team_strength: int, the highest player score in a loser team
  # @ratio: str or float, set to "1:2", "1:3", "1:4", "1:5" as paper presented
  # @anonymous: bool, To mask the real player name, substitute it with player_id.
 ```
@@ -60,7 +61,7 @@ You will find your simulated games in "simulations/{bench_name}/game_{id}.json".
 ### Step 2: Creating Benchmarks for Sports Narratives Reasoning
 At this step, you can generate multiple reasoning benchmark tasks based on the games created in the previous steps.
 ```bash
-# simply run bash for toy example
+# Simply run bash for a toy example
 bash create_benchmark.sh
 
 # or customize through command
@@ -70,18 +71,19 @@ python benchmark.py \
     -steps False \
     -player_stats False
 
-# @steps: int or false, create benchmark task seperated in steps.
+# @steps: int or false, create benchmark task separated in steps.
 # @player_stats: bool, True for player stats prediction, dafult to False for team scores prediction
 ```
 
-The generated task wil be saved in "benchmarks/."
+The generated task will be saved in "benchmarks/."
 
 ## Evaluate Results
 
-We proposed Discounted Cumulative Accuracy(DCA) which allowing a small margin of error when model perform on specific number prediction. 
-$$DCA = \sum_{t=0}^{T} p_t(1-\frac{t}{T}) $$
-$$ p_t = \frac{1}{N}\sum_{n=1}^N {1}_{\{\lvert s_n - s_n^* \rvert = t\}} $$
-
+We proposed Discounted Cumulative Accuracy(DCA) which allows a small margin of error when LLMs perform on number prediction.
+<p align="center">
+$DCA = \sum_{t=0}^{T} p_t(1-\frac{t}{T})$ <br>
+$p_t = \frac{1}{N}\sum_{n=1}^N {1}_{\{\lvert s_n - s_n^* \rvert = t\}}$
+</p>
 Once you have your model predictions and target labels prepared in two separate lists, you can use the metric function implemented in utils by input the two lists and set a tolerance level.
 
 ```python
@@ -92,15 +94,15 @@ accuracy = DCA(predictions, labels, T=5)
 
 We experimented with varying tolerance levels to assess the impact of this parameter.
 
-<div style="text-align: center;">
-  <img src="figs/tolerance_exp.png" alt="image" width="50%">
-</div>
+<p align="center">
+<img src="figs/tolerance_exp.png" alt="image" width="50%"/>
+</p>
 
 ## Experimental Results
 
-<div style="text-align: center;">
-  <img src="figs/results.png" alt="image" width="80%">
-</div>
+<p align="center">
+<img src="figs/results.png" alt="image" width="80%"/>
+</p>
 
 ---
 **Bibtex**
