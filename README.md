@@ -20,7 +20,13 @@ We introduce a novel method that synthesizes sports narratives by modeling game 
 
 
 ## Hands-on Sports Analytical Tasks
-Tasks published on paper are prepared in the folder "benchmarks/."
+Tasks published on paper are prepared in the folder "benchmarks/.". Our proposed tasks are also available on Huggingface. https://huggingface.co/datasets/huuuyeah/SportsGen 
+```python
+from datasets import load_dataset
+
+real_narratives_step_10 = load_dataset("huuuyeah/SportsGen", "real", split="DnC10")
+sportsgen_ratio_13 = load_dataset("huuuyeah/SportsGen", "sportsgen", split="ratio_13")
+```
 
 Data format
 ```json
